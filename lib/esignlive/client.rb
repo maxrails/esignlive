@@ -4,7 +4,7 @@ module ESignLive
   class Client
     include ESignLive::API::Calls
 
-    attr_reader :headers, :environment, :url_version
+    attr_reader :headers, :environment, :url
 
     VALID_ENVIRONMENTS = %w(sandbox production)
 

@@ -19,7 +19,7 @@ module ESignLive
 
       def authentication_token(package_id:)
         ::HTTParty.post(
-          "#{@url}/authenticationTokens",
+          "#{url}/authenticationTokens",
           body: { packageId: package_id }.to_json,
           headers: headers
         ).parsed_response
@@ -27,7 +27,7 @@ module ESignLive
 
       def sender_authentication_token(package_id:)
         ::HTTParty.post(
-          "#{@url}/senderAuthenticationTokens",
+          "#{url}/senderAuthenticationTokens",
           body: { packageId: package_id }.to_json,
           headers: headers
         ).parsed_response
@@ -35,7 +35,7 @@ module ESignLive
 
       def signer_authentication_token(signer_id:, package_id:)
         ::HTTParty.post(
-          "#{@url}/signerAuthenticationTokens",
+          "#{url}/signerAuthenticationTokens",
           body: {
             signerId: signer_id,
             packageId: package_id
@@ -46,27 +46,27 @@ module ESignLive
 
       def get_packages
         ::HTTParty.get(
-          "#{@url}/packages",
+          "#{url}/packages",
           headers: headers
         ).parsed_response
       end
 
       def get_package(package_id:)
         ::HTTParty.get(
-          "#{@url}/packages/#{package_id}",
+          "#{url}/packages/#{package_id}",
           headers: headers
         ).parsed_response
       end
 
       def get_signing_status(package_id:)
         ::HTTParty.get(
-          "#{@url}/packages/#{package_id}/signingStatus",
+          "#{url}/packages/#{package_id}/signingStatus",
           headers: headers
         ).parsed_response
       end
 
       def get_document(package_id:, document_id:, pdf: false)
-        endpoint = "#{@url}/packages/#{package_id}/documents/#{document_id}"
+        endpoint = "#{url}/packages/#{package_id}/documents/#{document_id}"
         pdf ? url = "#{endpoint}/pdf" : url = endpoint
         ::HTTParty.get(
           url,
@@ -76,14 +76,14 @@ module ESignLive
 
       def get_roles(package_id:)
         ::HTTParty.get(
-          "#{@url}/packages/#{package_id}/roles",
+          "#{url}/packages/#{package_id}/roles",
           headers: headers
         ).parsed_response["results"]
       end
 
       def get_role(package_id:, role_id:)
         ::HTTParty.get(
-          "#{@url}/packages/#{package_id}/roles/#{role_id}",
+          "#{url}/packages/#{package_id}/roles/#{role_id}",
           headers: headers
         ).parsed_response
       end
@@ -99,7 +99,7 @@ module ESignLive
           ]
         }
         ::HTTParty.put(
-         "#{@url}/packages/#{package_id}/roles/#{role_id}",
+         "#{url}/packages/#{package_id}/roles/#{role_id}",
           body: body.to_json,
           headers: headers
         ).parsed_response
@@ -118,7 +118,7 @@ module ESignLive
           body.merge!(sender_hash)
         end
         ::HTTParty.post(
-          "#{@url}/packages",
+          "#{url}/packages",
           body: body.to_json,
           headers: headers
         ).parsed_response
@@ -126,7 +126,7 @@ module ESignLive
 
       def create_package_from_template(template_id:, opts: {})
         ::HTTParty.post(
-          "#{@url}/packages/#{template_id}/clone",
+          "#{url}/packages/#{template_id}/clone",
           headers: headers,
           body: package_hash(opts).to_json
         ).parsed_response
@@ -134,7 +134,7 @@ module ESignLive
 
       def send_package(package_id:)
         response = ::HTTParty.post(
-          "#{@url}/packages/#{package_id}",
+          "#{url}/packages/#{package_id}",
           body: { status: "SENT" }.to_json,
           headers: headers
         )
@@ -143,14 +143,14 @@ module ESignLive
 
       def remove_document_from_package(document_id:, package_id:)
         ::HTTParty.delete(
-          "#{@url}/packages/#{package_id}/documents/#{document_id}",
+          "#{url}/packages/#{package_id}/documents/#{document_id}",
           headers: headers
         ).parsed_response
       end
 
       def signing_url(package_id:, role_id:)
         ::HTTParty.get(
-          "#{@url}/packages/#{package_id}/roles/#{role_id}/signingUrl",
+          "#{url}/packages/#{package_id}/roles/#{role_id}/signingUrl",
           headers: headers
         ).parsed_response["url"]
       end
